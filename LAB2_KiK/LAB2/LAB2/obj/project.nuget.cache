@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "DiVE6Lybiqk=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\wardusV2\\Desktop\\LAB2_KiK\\LAB2\\LAB2\\LAB2.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\wardusV2\\.nuget\\packages\\mathnet.numerics\\5.0.0\\mathnet.numerics.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,78 @@
+--- Shift 0 ---
+YMNXNXFYJXY
+
+--- Shift 1 ---
+XLMWMWEXIWX
+
+--- Shift 2 ---
+WKLVLVDWHVW
+
+--- Shift 3 ---
+VJKUKUCVGUV
+
+--- Shift 4 ---
+UIJTJTBUFTU
+
+--- Shift 5 ---
+THISISATEST
+
+--- Shift 6 ---
+SGHRHRZSDRS
+
+--- Shift 7 ---
+RFGQGQYRCQR
+
+--- Shift 8 ---
+QEFPFPXQBPQ
+
+--- Shift 9 ---
+PDEOEOWPAOP
+
+--- Shift 10 ---
+OCDNDNVOZNO
+
+--- Shift 11 ---
+NBCMCMUNYMN
+
+--- Shift 12 ---
+MABLBLTMXLM
+
+--- Shift 13 ---
+LZAKAKSLWKL
+
+--- Shift 14 ---
+KYZJZJRKVJK
+
+--- Shift 15 ---
+JXYIYIQJUIJ
+
+--- Shift 16 ---
+IWXHXHPITHI
+
+--- Shift 17 ---
+HVWGWGOHSGH
+
+--- Shift 18 ---
+GUVFVFNGRFG
+
+--- Shift 19 ---
+FTUEUEMFQEF
+
+--- Shift 20 ---
+ESTDTDLEPDE
+
+--- Shift 21 ---
+DRSCSCKDOCD
+
+--- Shift 22 ---
+CQRBRBJCNBC
+
+--- Shift 23 ---
+BPQAQAIBMAB
+
+--- Shift 24 ---
+AOPZPZHALZA
+
+--- Shift 25 ---
+ZNOYOYGZKYZ
+

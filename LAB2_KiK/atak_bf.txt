@@ -1,0 +1,136 @@
+using System;
+using System.IO;
+using System.Linq;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
+namespace CaesarBruteForce
+{
+    class Program
+    {
+        static readonly string inputFileName = "C:\\Users\\wardusV2\\Desktop\\LAB2_KiK\\LAB2\\LAB2\\Encrypt.txt";
+        static readonly string outputAllFileName = "C:\\Users\\wardusV2\\Desktop\\LAB2_KiK\\LAB2\\LAB2\\.txt";
+        static readonly string outputRankedFileName = "C:\\Users\\wardusV2\\Desktop\\LAB2_KiK\\LAB2\\LAB2\\outputFile.txt";
+
+        // Lista najczęstszych angielskich słów do prostego scoringu
+        static readonly string[] commonEnglishWords = new[]
+        {
+            "the","be","to","of","and","a","in","that","have","I",
+            "it","for","not","on","with","he","as","you","do","at"
+        };
+
+        static void Main(string[] args)
+        {
+            if (!File.Exists(inputFileName))
+            {
+                Console.WriteLine($"Nie znaleziono pliku '{inputFileName}'. Umieść szyfrogram w tym pliku i uruchom ponownie.");
+                return;
+            }
+
+            string cipherText = File.ReadAllText(inputFileName);
+            if (string.IsNullOrWhiteSpace(cipherText))
+            {
+                Console.WriteLine($"Plik '{inputFileName}' jest pusty.");
+                return;
+            }
+
+            var allResults = new List<(int shift, string text)>();
+
+            for (int shift = 0; shift < 26; shift++)
+            {
+                string plain = CaesarDecrypt(cipherText, shift);
+                int score = EnglishScore(plain);
+                allResults.Add((shift, plain));
+
+                // Wypisz do konsoli
+                Console.WriteLine($"--- Shift {shift} ---");
+                Console.WriteLine(plain);
+                Console.WriteLine();
+            }
+
+            // Zapisz wszystkie odszyfrowania do pliku (w kolejności rosnącej shift)
+            using (var w = new StreamWriter(outputAllFileName, false))
+            {
+                foreach (var r in allResults)
+                {
+                    w.WriteLine($"--- Shift {r.shift} ---");
+                    w.WriteLine(r.text);
+                    w.WriteLine();
+                }
+            }
+            Console.WriteLine($"Wszystkie odszyfrowania zapisano do '{outputAllFileName}'.");
+
+            // Posortuj malejąco wg score i zapisz ranking
+            var ranked = allResults.OrderByDescending(r => r.shift).ToList();
+            using (var w = new StreamWriter(outputRankedFileName, false))
+            {
+                w.WriteLine("Odszyfrowane dane :");
+                w.WriteLine();
+                foreach (var r in ranked)
+                {
+                    w.WriteLine($"--- Shift {r.shift} ---");
+                    w.WriteLine(r.text);
+                    w.WriteLine();
+                }
+            }
+            Console.WriteLine($"Posortowane (wg prostego score) odszyfrowania zapisano do '{outputRankedFileName}'.");
+
+            Console.WriteLine("Zakończono. Naciśnij Enter, aby zamknąć.");
+            Console.ReadLine();
+        }
+
+        // Funkcja odszyfrowująca przy zadanym przesunięciu (0..25)
+        static string CaesarDecrypt(string input, int shift)
+        {
+            if (shift < 0) shift = ((shift % 26) + 26) % 26;
+            var chars = input.ToCharArray();
+            for (int i = 0; i < chars.Length; i++)
+            {
+                char c = chars[i];
+                if (char.IsUpper(c))
+                {
+                    int baseA = 'A';
+                    int offset = (c - baseA - shift) % 26;
+                    if (offset < 0) offset += 26;
+                    chars[i] = (char)(baseA + offset);
+                }
+                else if (char.IsLower(c))
+                {
+                    int baseA = 'a';
+                    int offset = (c - baseA - shift) % 26;
+                    if (offset < 0) offset += 26;
+                    chars[i] = (char)(baseA + offset);
+                }
+                // znaki niealfabetyczne zostają bez zmian
+            }
+            return new string(chars);
+        }
+
+        // Proste ocenianie "jak bardzo jest po angielsku"
+        // Liczy wystąpienia najczęstszych słów (rozróżnianie małe/duże ignorowane)
+        static int EnglishScore(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return 0;
+
+            // Uproszczenie: podziel na "słowa" przez regex (tylko litery)
+            var words = Regex.Matches(text.ToLowerInvariant(), @"\b[a-z']+\b")
+                             .Cast<Match>()
+                             .Select(m => m.Value);
+
+            int score = 0;
+            var wordList = words.ToList();
+
+            foreach (var w in commonEnglishWords)
+            {
+                // Dodaj liczbę wystąpień danego słowa
+                score += wordList.Count(x => x == w);
+            }
+
+            // Dodatkowo premiujemy wystąpienia słów o długości >=3 (może pomagać),
+            // ale bez przesady: dodajemy liczbę unikalnych słów długości >=3.
+            score += wordList.Where(x => x.Length >= 3).Distinct().Count();
+
+            return score;
+        }
+    }
+}
